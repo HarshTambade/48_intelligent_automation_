@@ -33,8 +33,9 @@ body {
 }
 
 .navbar-logo img {
-  width: 40px;
+  width: 150px;
   margin-right: 10px;
+  display: flex;
 }
 
 .navbar-logo span {
