@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Employee Information Management</title>
+  <title>Generate Salary Slip</title>
   <link rel="stylesheet" href="../styles.css">
   <style>
     /* Global Styles */
@@ -45,22 +45,33 @@ button[type="submit"] {
   background-color: #3498db;
   color: #fff;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: 7px;
+  padding: 10px 0px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 10px;
 }
 
 button[type="submit"]:hover {
-  background-color: #3498db;
+  background-color: #2980b9;
 }
 
 .salary-slip-details {
   border: 1px solid #ccc;
-  padding: 20px;
+  padding: 50px;
   border-radius: 5px;
   margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
 }
   </style>
 </head>
@@ -71,29 +82,29 @@ button[type="submit"]:hover {
 
 <nav class="navbar">
     <div class="navbar-logo">
-        <img src="/client/assests/logo.png" alt="HRCONNEX Logo">
+      <img src="/assests/logo.png" alt="HRCONNEX Logo">
     </div>
     <ul class="navbar-nav">
       <li class="nav-item">
         <a href="../index.html" class="nav-link">Home</a>
       </li>
       <li class="nav-item">
-        <a href="employee.html" class="nav-link">Employees</a>
+        <a href="/pages/employee.html" class="nav-link">Employees</a>
       </li>
       <li class="nav-item">
-        <a href="attendance.html" class="nav-link">Attendance</a>
+        <a href="/pages/attendance.html" class="nav-link">Attendance</a>
       </li>
       <li class="nav-item">
-        <a href="leave.html" class="nav-link">Leave Management</a>
+        <a href="/pages/leave.html" class="nav-link">Leave Management</a>
       </li>
       <li class="nav-item">
-        <a href="performance.html" class="nav-link">Performance</a>
+        <a href="/pages/performance.html" class="nav-link">Performance</a>
       </li>
       <li class="nav-item">
-        <a href="salary.html" class="nav-link">Salary</a>
+        <a href="/pages/salary.html" class="nav-link">Salary</a>
       </li>
       <li class="nav-item">
-        <a href="reports.html" class="nav-link">Reports</a>
+        <a href="/pages/reports.html" class="nav-link">Reports</a>
       </li>
     </ul>
   </nav>
@@ -106,11 +117,11 @@ button[type="submit"]:hover {
       <!-- Salary Slip Generation Form -->
       <form id="salaryForm">
         <div class="form-group">
-          <label for="employeeName">Select Employee:</label>
-          <select id="employeeName" name="employeeName">
-            <!-- Employee options will be dynamically populated -->
-            <option value="employee1">Employee 1</option>
-            <option value="employee2">Employee 2</option>
+          <label for="employeeId">Select Employee ID:</label>
+          <select id="employeeId" name="employeeId">
+            <!-- Employee ID options will be dynamically populated -->
+            <option value="emp1">Employee 1</option>
+            <option value="emp2">Employee 2</option>
             <!-- Add more options for each employee -->
           </select>
         </div>
@@ -120,15 +131,46 @@ button[type="submit"]:hover {
           <input type="month" id="salaryMonth" name="salaryMonth">
         </div>
         
+        <!-- Table for Overtime, Work, and Comp Off -->
+        <table id="compOffTable">
+          <thead>
+            <tr>
+              <th>Overtime</th>
+              <th>Work</th>
+              <th>Comp Off</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Comp Off data will be displayed dynamically here -->
+            <tr>
+              <td>10 hours</td>
+              <td>160 hours</td>
+              <td>5 days</td>
+            </tr>
+            <!-- Add more rows for each employee if needed -->
+          </tbody>
+        </table>
+        
+        <div class="form-group">
+          <label for="salaryAmount">Enter Salary Amount:</label>
+          <input type="number" id="salaryAmount" name="salaryAmount" placeholder="Enter salary amount...">
+        </div>
+
+        <!-- Generate Salary Slip Button -->
         <button type="submit">Generate Salary Slip</button>
       </form>
       
       <!-- Display Generated Salary Slip -->
       <div id="salarySlip" class="salary-slip-details">
         <!-- Salary slip details will be dynamically displayed here -->
+        <h3>Salary Slip</h3>
+        <p>Employee ID: <span id="empId"></span></p>
+        <p>Month: <span id="month"></span></p>
+        <p>Amount: <span id="amount"></span></p>
       </div>
     </section>
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
