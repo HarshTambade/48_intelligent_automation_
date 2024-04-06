@@ -6,123 +6,124 @@
     <title>Login</title>
     <style>
         /* Basic styling for elements */
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 10px; /* Reduced padding */
-            margin-top: 0; /* Removed top margin */
-            display: flex;
-            align-items: center; /* Vertically center the content */
-            justify-content: center; /* Horizontally center the content */
-        }
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 10px; /* Reduced padding */
+    margin-top: 0; /* Removed top margin */
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    justify-content: center; /* Horizontally center the content */
+}
 
-        header {
-            text-align: left; /* Align header to the left */
-        }
+header {
+    text-align: left; /* Align header to the left */
+}
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
+h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
 
-        h2 {
-            margin-top: 10px; /* Reduced margin */
-        }
+h2 {
+    margin-top: 10px; /* Reduced margin */
+}
 
-        label {
-            display: block;
-            margin-bottom: 3px; /* Reduced margin */
-        }
+label {
+    display: block;
+    margin-bottom: 3px; /* Reduced margin */
+}
 
-        input {
-            width: 100%;
-            padding: 8px; /* Reduced padding */
-            border: 1px solid #ccc;
-            margin-bottom: 8px; /* Reduced margin */
-        }
+input {
+    width: 80%; /* Reduced width for the input text */
+    padding: 8px; /* Reduced padding */
+    border: 1px solid #ccc;
+    margin-bottom: 8px; /* Reduced margin */
+}
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        #or-separator {
-            text-align: center;
-            margin-top: 10px; /* Reduced margin */
-        }
+#or-separator {
+    text-align: center;
+    margin-top: 10px; /* Reduced margin */
+}
 
-        /* Style for the image */
-        #image-container {
-            flex: 0 0 50%; /* Take up half of the available space */
-            height: 100vh; /* Set height to 100% of the viewport height */
-            display: flex;
-            align-items: center; /* Vertically center the content */
-            justify-content: center; /* Horizontally center the content */
-            overflow: hidden; /* Hide overflow if the image is larger than viewport */
-        }
+/* Style for the image */
+#image-container {
+    flex: 0 0 50%; /* Take up half of the available space */
+    height: 100vh; /* Set height to 100% of the viewport height */
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    justify-content: center; /* Horizontally center the content */
+    overflow: hidden; /* Hide overflow if the image is larger than viewport */
+}
 
-        #image-container img {
-            width: 80%; /* Reduced image size */
-            height: auto;
-            object-fit: cover; /* Cover the entire container while maintaining aspect ratio */
-        }
+#image-container img {
+    width: 80%; /* Reduced image size */
+    height: auto;
+    object-fit: cover; /* Cover the entire container while maintaining aspect ratio */
+}
 
-        #form-container {
-            flex: 0 0 50%; /* Take up half of the available space */
-            padding-left: 10px; /* Reduced padding */
-        }
+#form-container {
+    flex: 0 0 50%; /* Take up half of the available space */
+    padding-left: 10px; /* Reduced padding */
+}
 
-        /* Style for the logo */
-        header img {
-            height: 30px; /* Adjust height of the logo */
-        }
+/* Style for the logo */
+header img {
+    height: 30px; /* Adjust height of the logo */
+}
 
-        @media (max-width: 768px) {
-            /* Adjust layout for smaller screens */
-            body {
-                flex-direction: column; /* Stack items vertically on smaller screens */
-                margin-top: 0; /* Remove top margin on smaller screens */
-            }
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        margin-top: 0; /* Remove top margin on smaller screens */
+    }
 
-            #image-container,
-            #form-container {
-                flex: 100%; /* Take up full width on smaller screens */
-                padding-left: 0; /* Remove padding on smaller screens */
-                height: auto; /* Reset height to auto on smaller screens */
-            }
+    #image-container,
+    #form-container {
+        flex: 100%; 
+        padding-left: 0; 
+        height: auto; 
+    }
 
-            #image-container img {
-                width: 100%; /* Full width on smaller screens */
-                height: auto;
-            }
-        }
+    #image-container img {
+        width: 100%; /* Full width on smaller screens */
+        height: auto;
+    }
+}
     </style>
 </head>
 <body>
     <div id="image-container">
-        <img src="/client/image/img1.png" alt="Your Image">
+        <img src="/client/assests/img1.png" alt="Your Image">
     </div>
 
     <div id="form-container">
         <header>
-            <img src="/client/image/logo.png" alt="Logo"> 
+            <img src="/client/assests/logo_login.png" alt="Logo"> 
             <h1>Welcome Back!</h1>
             <p>Login to your account</p>
         </header>
 
-        <main>
+        <main style="margin-top: 20px;"> <!-- Increased margin-top -->
             <h2>Email Id</h2>
-            <input type="email" id="email" placeholder="Enter email address">
-
+            <input type="email" id="email" placeholder="Enter email address" style="width: 70%;height: 30px; padding: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 5px;"> <!-- Increased padding, margin, and added border-radius -->
+        
             <h2>Password</h2>
-            <input type="password" id="password" placeholder="Enter password">
-
-            <button id="login">Login</button>
-        </main>
+            <input type="password" id="password" placeholder="Enter password" style="width: 70%;height: 30px; padding: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 5px;"> <!-- Increased padding, margin, and added border-radius -->
+        <br>
+        <a href="index.html" style="text-decoration: none;"> <!-- Added anchor tag -->
+            <button id="login" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 12px;">Login</button>
+        </a> 
+        </main>        
     </div>
 </body>
 </html>
