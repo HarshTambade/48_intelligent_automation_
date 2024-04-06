@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Information Management</title>
+<link rel="stylesheet" href="employee.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Employee Information Management</h1>
+    <div id="employeeList">
+        <!-- Employee details will be displayed here -->
+    </div>
+    <button id="addEmployeeBtn">Add Employee</button>
+</div>
+
+<!-- Modal for adding or editing employee -->
+<div id="employeeModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Add Employee</h2>
+        <form id="employeeForm">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" required></textarea>
+            </div>
+            <!-- Custom input fields -->
+            <div class="form-group">
+                <label for="customField1">Custom Field 1:</label>
+                <input type="text" id="customField1" name="customField1">
+            </div>
+            <div class="form-group">
+                <label for="customField2">Custom Field 2:</label>
+                <input type="text" id="customField2" name="customField2">
+            </div>
+            <!-- End of custom input fields -->
+            <button type="submit" id="submitBtn">Add Employee</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal for viewing individual employee data -->
+<div id="viewEmployeeModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Employee Details</h2>
+        <div id="employeeDetails">
+            <!-- Individual employee details will be displayed here -->
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
