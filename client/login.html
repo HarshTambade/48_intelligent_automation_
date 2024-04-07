@@ -5,19 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        /* Basic styling for elements */
         body {
             font-family: sans-serif;
             margin: 0;
-            padding: 10px; /* Reduced padding */
-            margin-top: 0; /* Removed top margin */
+            padding: 10px;
+            margin-top: 0;
             display: flex;
-            align-items: center; /* Vertically center the content */
-            justify-content: center; /* Horizontally center the content */
+            align-items: center;
+            justify-content: center;
         }
 
         header {
-            text-align: left; /* Align header to the left */
+            text-align: left;
         }
 
         h1 {
@@ -26,19 +25,19 @@
         }
 
         h2 {
-            margin-top: 10px; /* Reduced margin */
+            margin-top: 10px;
         }
 
         label {
             display: block;
-            margin-bottom: 3px; /* Reduced margin */
+            margin-bottom: 3px;
         }
 
         input {
-            width: 100%;
-            padding: 8px; /* Reduced padding */
+            width: 80%; 
+            padding: 8px; 
             border: 1px solid #ccc;
-            margin-bottom: 8px; /* Reduced margin */
+            margin-bottom: 8px;
         }
 
         button {
@@ -52,16 +51,15 @@
 
         #or-separator {
             text-align: center;
-            margin-top: 10px; /* Reduced margin */
+            margin-top: 10px; 
         }
 
-        /* Style for the image */
         #image-container {
-            flex: 0 0 50%; /* Take up half of the available space */
-            height: 100vh; /* Set height to 100% of the viewport height */
+            flex: 0 0 50%;
+            height: 100vh;
             display: flex;
-            align-items: center; /* Vertically center the content */
-            justify-content: center; /* Horizontally center the content */
+            align-items: center; 
+            justify-content: center; 
             overflow: hidden; /* Hide overflow if the image is larger than viewport */
         }
 
@@ -82,7 +80,6 @@
         }
 
         @media (max-width: 768px) {
-            /* Adjust layout for smaller screens */
             body {
                 flex-direction: column; /* Stack items vertically on smaller screens */
                 margin-top: 0; /* Remove top margin on smaller screens */
@@ -90,9 +87,9 @@
 
             #image-container,
             #form-container {
-                flex: 100%; /* Take up full width on smaller screens */
-                padding-left: 0; /* Remove padding on smaller screens */
-                height: auto; /* Reset height to auto on smaller screens */
+                flex: 100%; 
+                padding-left: 0; 
+                height: auto; 
             }
 
             #image-container img {
@@ -104,25 +101,73 @@
 </head>
 <body>
     <div id="image-container">
-        <img src="/client/image/img1.png" alt="Your Image">
+        <img src="/client/assests/img1.png" alt="Your Image">
     </div>
 
     <div id="form-container">
         <header>
-            <img src="/client/image/logo.png" alt="Logo"> 
+            <img src="/client/assests/logo_login.png" alt="Logo"> 
             <h1>Welcome Back!</h1>
             <p>Login to your account</p>
         </header>
 
-        <main>
+        <main style="margin-top: 20px;"> <!-- Increased margin-top -->
             <h2>Email Id</h2>
             <input type="email" id="email" placeholder="Enter email address">
-
+        
             <h2>Password</h2>
             <input type="password" id="password" placeholder="Enter password">
-
+        
+            <br>
             <button id="login">Login</button>
-        </main>
+            <p id="error-message" style="color: red; display: none;"></p> <!-- Error message element -->
+            <p id="success-message" style="color: green; display: none;">Login Successful!</p> <!-- Success message element -->
+        </main>        
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
+    <script src="/client/firebase-config.js" type="module"></script>
+    <script type="module">
+        // Firebase Auth module
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+
+        // Get references to email and password input fields
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        
+        // Get reference to the error message element
+        const errorMessage = document.getElementById('error-message');
+        // Get reference to the success message element
+        const successMessage = document.getElementById('success-message');
+
+        // Get reference to the login button
+        const loginButton = document.getElementById('login');
+
+        loginButton.addEventListener('click', () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            const auth = getAuth();
+
+            signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user);
+                successMessage.style.display = 'block';
+                // Redirect to index.html after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            })
+            .catch((error) => {
+                // Handle errors
+                const errorMessageText = error.message;
+                console.error(errorMessageText);
+                // Display error message to the user
+                errorMessage.textContent = errorMessageText;
+                errorMessage.style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>
