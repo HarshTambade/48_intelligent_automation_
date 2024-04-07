@@ -110,20 +110,3 @@ function generateEmployeeInputs() {
 
 // Call the function to generate employee inputs
 generateEmployeeInputs();
-
-<<<<<<< HEAD
-// Get the report type dropdown element
-const reportTypeSelect = document.getElementById('reportType');
-
-// Add event listener to toggle Comp Off Report section visibility based on selected option
-reportTypeSelect.addEventListener('change', function() {
-  const compOffSection = document.getElementById('compOffSection');
-  if (this.value === 'comp-off') {
-    compOffSection.style.display = 'block';
-  } else {
-    compOffSection.style.display = 'none';
-  }
-});
-
-=======
->>>>>>> 2742c34d1e30f420d9b8077a49eec63647a59721
