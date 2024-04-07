@@ -220,6 +220,7 @@
         `;
 
         // Update salary slip details
+        const salaryAmount = document.getElementById('salaryAmount').value;
         salarySlipDiv.innerHTML = `
           <h3>Salary Slip</h3>
           <p>Employee ID: ${employeeId}</p>
@@ -227,6 +228,7 @@
           <p>Overtime: ${overtime} hours</p>
           <p>Work: ${work} hours</p>
           <p>Comp Off: ${compOff} days</p>
+          <p>Salary Amount: ${salaryAmount}</p>
         `;
       })
       .catch(error => {
