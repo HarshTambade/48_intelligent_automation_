@@ -1,93 +1,3 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leave Management</title>
-  <link rel="stylesheet" href="../styles.css">
-</head>
-<body>
-
-<input type="checkbox" id="menu-toggle">
-<label for="menu-toggle" class="menu-icon">&#9776;</label>
-
-<nav class="navbar">
-  <div class="navbar-logo">
-    <img src="/assests/logo.png" alt="HRCONNEX Logo">
-  </div>
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a href="../index.html" class="nav-link">Home</a>
-    </li>
-    <li class="nav-item">
-      <a href="/pages/employee.html" class="nav-link">Employees</a>
-    </li>
-    <li class="nav-item">
-      <a href="/pages/attendance.html" class="nav-link">Attendance</a>
-    </li>
-    <li class="nav-item">
-      <a href="/pages/leave.html" class="nav-link">Leave Management</a>
-    </li>
-    <li class="nav-item">
-      <a href="/pages/performance.html" class="nav-link">Performance</a>
-    </li>
-    <li class="nav-item">
-      <a href="/pages/salary.html" class="nav-link">Salary</a>
-    </li>
-    <li class="nav-item">
-      <a href="/pages/reports.html" class="nav-link">Reports</a>
-    </li>
-  </ul>
-</nav>
-
-  <div class="container">
-    <header class="page-header">
-      <h1>Leave Management</h1>
-      <p>View and manage leave proposals.</p>
-    </header>
-  
-    <section class="leave-proposals">
-      <h2>Leave Proposals</h2>
-      <table class="proposals-table">
-        <thead>
-          <tr>
-            <th>Employee ID</th>
-            <th>Name</th>
-            <th>Leave Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Leave proposal records will be populated here -->
-          <!-- Sample proposal data -->
-          <tr>
-            <td>001</td>
-            <td>John Doe</td>
-            <td>Vacation</td>
-            <td>2022-04-12</td>
-            <td>2022-04-15</td>
-            <td>Family trip</td>
-            <td>Pending</td>
-            <td>
-              <button class="btn-approve">Approve</button>
-              <button class="btn-reject">Reject</button>
-            </td>
-          </tr>
-          <!-- Add more leave proposal records as needed -->
-        </tbody>
-      </table>
-    </section>
-  </div>
-  
-  <script src="script.js"></script>
-  </body>
-  </html>
-=======
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,50 +40,90 @@
   </ul>
 </nav>
 
-  <div class="container">
-    <header class="page-header">
-      <h1>Leave Management</h1>
-      <p>View and manage leave proposals.</p>
-    </header>
-  
-    <section class="leave-proposals">
-      <h2>Leave Proposals</h2>
-      <table class="proposals-table">
-        <thead>
-          <tr>
-            <th>Employee ID</th>
-            <th>Name</th>
-            <th>Leave Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Leave proposal records will be populated here -->
-          <!-- Sample proposal data -->
-          <tr>
-            <td>001</td>
-            <td>John Doe</td>
-            <td>Vacation</td>
-            <td>2022-04-12</td>
-            <td>2022-04-15</td>
-            <td>Family trip</td>
-            <td>Pending</td>
-            <td>
-              <button class="btn-approve">Approve</button>
-              <button class="btn-reject">Reject</button>
-            </td>
-          </tr>
-          <!-- Add more leave proposal records as needed -->
-        </tbody>
-      </table>
-    </section>
-  </div>
-  
-  <script src="script.js"></script>
-  </body>
-  </html>
->>>>>>> 2742c34d1e30f420d9b8077a49eec63647a59721
+<div class="container">
+  <header class="page-header">
+    <h1>Leave Management</h1>
+    <p>View and manage leave proposals.</p>
+  </header>
+
+  <section class="leave-proposals">
+    <h2>Leave Proposals</h2>
+    <table class="proposals-table">
+      <thead>
+        <tr>
+          <th>Employee ID</th>
+          <th>Leave Type</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Leave proposal records will be populated here -->
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<!-- Load Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD6A4gvA4xt2tfvK2S1UOsg25OYFsnoHBk",
+    authDomain: "employee-management-111.firebaseapp.com",
+    databaseURL: "https://employee-management-111-default-rtdb.firebaseio.com",
+    projectId: "employee-management-111",
+    storageBucket: "employee-management-111.appspot.com",
+    messagingSenderId: "511443056601",
+    appId: "1:511443056601:web:02ba1eafbdb2e5f3dc4bc8",
+    measurementId: "G-PG3FT3F8WL"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const database = firebase.database();
+  const leaveApplicationRef = database.ref('LeaveApplication');
+
+  leaveApplicationRef.once('value', (snapshot) => {
+    const leaveApplications = snapshot.val();
+    const tbody = document.querySelector('.proposals-table tbody');
+
+    for (let key in leaveApplications) {
+      const leave = leaveApplications[key];
+      const row = document.createElement('tr');
+      row.dataset.key = key; // Set data attribute for the key
+      row.innerHTML = `
+        <td>${leave.email}</td>
+        <td>${leave.leaveType}</td>
+        <td>${leave.startDate}</td>
+        <td>${leave.endDate}</td>
+        <td>${leave.reason}</td>
+        <td>${leave.status}</td>
+        <td>
+          <button class="btn-approve" onclick="updateStatus('${key}', 'Approved')">Approve</button>
+          <button class="btn-reject" onclick="updateStatus('${key}', 'Rejected')">Reject</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    }
+  });
+
+  function updateStatus(key, newStatus) {
+    const leaveRef = leaveApplicationRef.child(key);
+    leaveRef.update({ status: newStatus })
+        .then(() => {
+            const statusCell = document.querySelector(`tr[data-key="${key}"] td:nth-child(6)`);
+            statusCell.textContent = newStatus;
+        })
+        .catch((error) => {
+            console.error("Error updating status:", error);
+        });
+  }
+</script>
+
+</body>
+</html>
