@@ -7,6 +7,43 @@
   <link rel="stylesheet" href="../styles.css">
   <!-- Chart.js library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Add your custom CSS styles here */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
@@ -99,7 +136,27 @@
 <div class="modal" id="editModal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <!-- Form for editing employee details -->
+    <h2>Edit Employee</h2>
+    <form id="editEmployeeForm">
+      <div class="form-group">
+        <label for="editFirstName">First Name:</label>
+        <input type="text" id="editFirstName" name="editFirstName" required>
+      </div>
+      <div class="form-group">
+        <label for="editLastName">Last Name:</label>
+        <input type="text" id="editLastName" name="editLastName" required>
+      </div>
+      <div class="form-group">
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" name="editEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="editPhone">Phone:</label>
+        <input type="tel" id="editPhone" name="editPhone" required>
+      </div>
+      <!-- Add more fields for additional employee details -->
+      <button type="button" id="saveEditBtn" class="btn-submit">Save Changes</button>
+    </form>
   </div>
 </div>
 
@@ -112,36 +169,75 @@
 <script>
   // Initialize Firebase
   const firebaseConfig = {
-    apiKey: "AIzaSyD6A4gvA4xt2tfvK2S1UOsg25OYFsnoHBk",
-    authDomain: "employee-management-111.firebaseapp.com",
-    databaseURL: "https://employee-management-111-default-rtdb.firebaseio.com",
-    projectId: "employee-management-111",
-    storageBucket: "employee-management-111.appspot.com",
-    messagingSenderId: "511443056601",
-    appId: "1:511443056601:web:02ba1eafbdb2e5f3dc4bc8",
-    measurementId: "G-PG3FT3F8WL"
+    apiKey: "your-api-key",
+    authDomain: "your-auth-domain",
+    databaseURL
+: "your-database-url",
+    projectId: "your-project-id",
+    storageBucket: "your-storage-bucket",
+    messagingSenderId: "your-sender-id",
+    appId: "your-app-id",
+    measurementId: "your-measurement-id"
   };
   firebase.initializeApp(firebaseConfig);
 
   const db = firebase.database();
 
   const employeeTableBody = document.getElementById('employeeTableBody');
+  const editModal = document.getElementById('editModal');
+  const editEmployeeForm = document.getElementById('editEmployeeForm');
+
+  // Function to open edit modal and populate form with employee data
+  function openEditModal(employeeId, employeeData) {
+    editEmployeeForm.editFirstName.value = employeeData.firstName;
+    editEmployeeForm.editLastName.value = employeeData.lastName;
+    editEmployeeForm.editEmail.value = employeeData.email;
+    editEmployeeForm.editPhone.value = employeeData.phone;
+    editModal.style.display = 'block';
+
+    // Save changes to database when save button is clicked
+    document.getElementById('saveEditBtn').addEventListener('click', () => {
+      const updatedEmployeeData = {
+        firstName: editEmployeeForm.editFirstName.value,
+        lastName: editEmployeeForm.editLastName.value,
+        email: editEmployeeForm.editEmail.value,
+        phone: editEmployeeForm.editPhone.value
+      };
+
+      db.ref('employees/' + employeeId).update(updatedEmployeeData)
+        .then(() => {
+          console.log('Employee details updated successfully.');
+          editModal.style.display = 'none';
+        })
+        .catch(error => {
+          console.error('Error updating employee details:', error);
+        });
+    });
+  }
+
+  // Close the edit modal when the close button or outside modal is clicked
+  window.onclick = function(event) {
+    if (event.target == editModal) {
+      editModal.style.display = "none";
+    }
+  }
 
   // Retrieving data and populating the table
   db.ref('employees').on('value', snapshot => {
     employeeTableBody.innerHTML = '';
     snapshot.forEach(childSnapshot => {
-      const employee = childSnapshot.val();
+      const employeeId = childSnapshot.key;
+      const employeeData = childSnapshot.val();
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${childSnapshot.key}</td>
-        <td>${employee.firstName}</td>
-        <td>${employee.lastName}</td>
-        <td>${employee.email}</td>
-        <td>${employee.phone}</td>
+        <td>${employeeId}</td>
+        <td>${employeeData.firstName}</td>
+        <td>${employeeData.lastName}</td>
+        <td>${employeeData.email}</td>
+        <td>${employeeData.phone}</td>
         <td>
-          <button class="editBtn">Edit</button>
-          <button class="deleteBtn">Delete</button>
+          <button class="editBtn" data-id="${employeeId}">Edit</button>
+          <button class="deleteBtn" data-id="${employeeId}">Delete</button>
         </td>
       `;
       employeeTableBody.appendChild(row);
@@ -174,13 +270,26 @@
   // Edit and delete employee
   employeeTableBody.addEventListener('click', event => {
     if (event.target.classList.contains('editBtn')) {
-      const employeeId = event.target.closest('tr').children[0].textContent;
-      // You can implement the edit functionality here
-      console.log('Edit employee:', employeeId);
+      const employeeId = event.target.getAttribute('data-id');
+      db.ref('employees/' + employeeId).once('value')
+        .then(snapshot => {
+          const employeeData = snapshot.val();
+          openEditModal(employeeId, employeeData);
+        })
+        .catch(error => {
+          console.error('Error fetching employee details:', error);
+        });
     } else if (event.target.classList.contains('deleteBtn')) {
-      const employeeId = event.target.closest('tr').children[0].textContent;
-      // You can implement the delete functionality here
-      console.log('Delete employee:', employeeId);
+      const employeeId = event.target.getAttribute('data-id');
+      if (confirm('Are you sure you want to delete this employee?')) {
+        db.ref('employees/' + employeeId).remove()
+          .then(() => {
+            console.log('Employee deleted successfully.');
+          })
+          .catch(error => {
+            console.error('Error deleting employee:', error);
+          });
+      }
     }
   });
 </script>
