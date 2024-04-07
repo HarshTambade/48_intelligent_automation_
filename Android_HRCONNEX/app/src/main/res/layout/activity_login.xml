@@ -33,15 +33,17 @@
                 android:textStyle="bold"
                 android:textColor="@color/lavender"/>
 
+
             <EditText
                 android:id="@+id/login_username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/lavender_border"
                 android:drawableLeft="@drawable/ic_baseline_person_pin_24"
                 android:drawablePadding="8dp"
                 android:hint="Email"
+                android:textColorHint="@color/black"
                 android:inputType="textEmailAddress"
                 android:padding="8dp"
                 android:textColor="@color/black" />
@@ -50,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/login_password"
+                android:textColorHint="@color/black"
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"

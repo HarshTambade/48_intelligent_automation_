@@ -17,6 +17,12 @@
         android:theme="@style/Theme.WorkoutHere"
         tools:targetApi="31">
         <activity
+            android:name=".LAStatus"
+            android:exported="false" />
+        <activity
+            android:name=".LeaveApplication"
+            android:exported="false" />
+        <activity
             android:name=".Login"
             android:exported="false" />
         <activity
