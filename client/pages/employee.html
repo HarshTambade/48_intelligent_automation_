@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Employee Information Management</title>
   <link rel="stylesheet" href="../styles.css">
+  <!-- Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -35,7 +37,7 @@
       <a href="salary.html" class="nav-link">Salary</a>
     </li>
     <li class="nav-item">
-      <a href="reports.html" class="nav-link">Reports</a>
+      <a href="/pages/reports.html" class="nav-link">Reports</a>
     </li>
   </ul>
 </nav>
@@ -48,15 +50,34 @@
 
   <section class="employee-details">
     <h2>Existing Employees</h2>
-    <!-- Placeholder for existing employee details -->
-    <ul id="employeeList">
-      <!-- Dynamically populate employee details here -->
-    </ul>
+    <table id="employeeTable">
+      <thead>
+        <tr>
+          <th>Employee ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="employeeTableBody">
+        <!-- Dynamically populate employee details here -->
+      </tbody>
+    </table>
   </section>
 
   <section class="employee-form">
     <h2>Add New Employee</h2>
     <form id="employeeForm">
+      <div class="form-group">
+        <label for="employeeId">Employee ID:</label>
+        <input type="text" id="employeeId" name="employeeId" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
       <div class="form-group">
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" required>
@@ -64,10 +85,6 @@
       <div class="form-group">
         <label for="lastName">Last Name:</label>
         <input type="text" id="lastName" name="lastName" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
       </div>
       <div class="form-group">
         <label for="phone">Phone:</label>
@@ -85,6 +102,9 @@
     <!-- Form for editing employee details -->
   </div>
 </div>
+
+<!-- Adding a canvas for the chart -->
+<canvas id="employeeChart"></canvas>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -104,38 +124,66 @@
   firebase.initializeApp(firebaseConfig);
 
   const db = firebase.database();
-  
-  const employeeForm = document.getElementById('employeeForm');
-  const employeeList = document.getElementById('employeeList');
 
-  const addEmployeeBtn = document.getElementById('addEmployeeBtn');
-  addEmployeeBtn.addEventListener('click', () => {
-    const formData = new FormData(employeeForm);
-    const employeeData = {
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-    };
-    db.ref('employees').push(employeeData)
-      .then(() => {
-        location.reload(true); // Reload the page after successful submission
-      })
-      .catch(error => {
-        console.error('Error adding employee:', error);
-        // Handle error appropriately
-      });
-  });
+  const employeeTableBody = document.getElementById('employeeTableBody');
 
+  // Retrieving data and populating the table
   db.ref('employees').on('value', snapshot => {
-    employeeList.innerHTML = '';
+    employeeTableBody.innerHTML = '';
     snapshot.forEach(childSnapshot => {
       const employee = childSnapshot.val();
-      const li = document.createElement('li');
-      li.textContent = `${employee.firstName} ${employee.lastName}`;
-      employeeList.appendChild(li);
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${childSnapshot.key}</td>
+        <td>${employee.firstName}</td>
+        <td>${employee.lastName}</td>
+        <td>${employee.email}</td>
+        <td>${employee.phone}</td>
+        <td>
+          <button class="editBtn">Edit</button>
+          <button class="deleteBtn">Delete</button>
+        </td>
+      `;
+      employeeTableBody.appendChild(row);
     });
   });
+
+  // Adding new employee
+  const addEmployeeBtn = document.getElementById('addEmployeeBtn');
+  addEmployeeBtn.addEventListener('click', () => {
+    const employeeId = document.getElementById('employeeId').value;
+    const email = document.getElementById('email').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const phone = document.getElementById('phone').value;
+
+    db.ref('employees/' + employeeId).set({
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone
+    }).then(() => {
+      console.log('Employee added successfully.');
+      // You can perform additional actions here, like clearing the form
+    }).catch(error => {
+      console.error('Error adding employee:', error);
+      // Handle error appropriately
+    });
+  });
+
+  // Edit and delete employee
+  employeeTableBody.addEventListener('click', event => {
+    if (event.target.classList.contains('editBtn')) {
+      const employeeId = event.target.closest('tr').children[0].textContent;
+      // You can implement the edit functionality here
+      console.log('Edit employee:', employeeId);
+    } else if (event.target.classList.contains('deleteBtn')) {
+      const employeeId = event.target.closest('tr').children[0].textContent;
+      // You can implement the delete functionality here
+      console.log('Delete employee:', employeeId);
+    }
+  });
 </script>
+
 </body>
 </html>
