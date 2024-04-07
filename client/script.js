@@ -59,3 +59,68 @@ deleteButtons.forEach(button => {
     }
   });
 });
+
+//for perforrmance
+// Sample employee data with performance details
+const employees = [
+  { id: 1, name: "John Doe", goals: "", progress: "", feedback: "" },
+  { id: 2, name: "Jane Smith", goals: "", progress: "", feedback: "" },
+  // Add more employees as needed
+];
+
+// Function to generate input fields for each employee
+function generateEmployeeInputs() {
+  const employeeList = document.getElementById("employeeList");
+
+  employees.forEach(employee => {
+    const employeeDiv = document.createElement("div");
+    employeeDiv.classList.add("employee");
+
+    const nameLabel = document.createElement("label");
+    nameLabel.textContent = `Employee Name: ${employee.name}`;
+    employeeDiv.appendChild(nameLabel);
+
+    const goalsInput = document.createElement("textarea");
+    goalsInput.placeholder = "Enter goals for the employee";
+    goalsInput.value = employee.goals;
+    goalsInput.addEventListener("input", function() {
+      employee.goals = this.value;
+    });
+    employeeDiv.appendChild(goalsInput);
+
+    const progressInput = document.createElement("textarea");
+    progressInput.placeholder = "Enter progress for the employee";
+    progressInput.value = employee.progress;
+    progressInput.addEventListener("input", function() {
+      employee.progress = this.value;
+    });
+    employeeDiv.appendChild(progressInput);
+
+    const feedbackInput = document.createElement("textarea");
+    feedbackInput.placeholder = "Provide feedback for the employee";
+    feedbackInput.value = employee.feedback;
+    feedbackInput.addEventListener("input", function() {
+      employee.feedback = this.value;
+    });
+    employeeDiv.appendChild(feedbackInput);
+
+    employeeList.appendChild(employeeDiv);
+  });
+}
+
+// Call the function to generate employee inputs
+generateEmployeeInputs();
+
+// Get the report type dropdown element
+const reportTypeSelect = document.getElementById('reportType');
+
+// Add event listener to toggle Comp Off Report section visibility based on selected option
+reportTypeSelect.addEventListener('change', function() {
+  const compOffSection = document.getElementById('compOffSection');
+  if (this.value === 'comp-off') {
+    compOffSection.style.display = 'block';
+  } else {
+    compOffSection.style.display = 'none';
+  }
+});
+

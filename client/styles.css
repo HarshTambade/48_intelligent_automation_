@@ -4,20 +4,17 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f2f2f2;
   color: #333;
   line-height: 1.6;
 }
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
-
 .navbar {
   background: linear-gradient(to right, #2c3e50, #0b7aec);
   padding: 10px 20px;
@@ -168,18 +165,6 @@ body {
 }
 
 /* ------------------------------Global styles for employee--------------------------- */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 0 20px;
-}
-
 .page-header {
   text-align: center;
   margin-bottom: 30px;
@@ -302,30 +287,6 @@ body {
 }
 
 /* Global styles for attendance*/
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 0 20px;
-}
-
-.page-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.page-header h1 {
-  color: #333;
-}
-
-.page-header p {
-  color: #666;
-}
 
 .attendance-details {
   background-color: #fff;
@@ -369,30 +330,6 @@ body {
 }
 
 /* Global styles for leave management*/
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 0 20px;
-}
-
-.page-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.page-header h1 {
-  color: #333;
-}
-
-.page-header p {
-  color: #666;
-}
 
 .leave-proposals {
   background-color: #fff;
@@ -449,4 +386,15 @@ body {
   .proposals-table td {
     font-size: 14px;
   }
+}
+
+/* Global styles for salary*/
+#compOffSection {
+  display: none; /* Hide Comp Off Report section by default */
+}
+
+#compOffSection h3 {
+  color: #3498db;
+  margin-bottom: 10px;
+  font-size: 20px;
 }
