@@ -111,6 +111,7 @@ function generateEmployeeInputs() {
 // Call the function to generate employee inputs
 generateEmployeeInputs();
 
+<<<<<<< HEAD
 // Get the report type dropdown element
 const reportTypeSelect = document.getElementById('reportType');
 
@@ -124,3 +125,5 @@ reportTypeSelect.addEventListener('change', function() {
   }
 });
 
+=======
+>>>>>>> 2742c34d1e30f420d9b8077a49eec63647a59721

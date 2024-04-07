@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,3 +82,141 @@
 <script src="script.js"></script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Tracking</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<input type="checkbox" id="menu-toggle">
+<label for="menu-toggle" class="menu-icon">&#9776;</label>
+
+<nav class="navbar">
+  <div class="navbar-logo">
+    <img src="/client/assests/logo.png" alt="HRCONNEX Logo">
+  </div>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a href="../index.html" class="nav-link">Home</a>
+    </li>
+    <li class="nav-item">
+      <a href="employee.html" class="nav-link">Employees</a>
+    </li>
+    <li class="nav-item">
+      <a href="attendance.html" class="nav-link">Attendance</a>
+    </li>
+    <li class="nav-item">
+      <a href="leave.html" class="nav-link">Leave Management</a>
+    </li>
+    <li class="nav-item">
+      <a href="performance.html" class="nav-link">Performance</a>
+    </li>
+    <li class="nav-item">
+      <a href="salary.html" class="nav-link">Salary</a>
+    </li>
+    <li class="nav-item">
+      <a href="reports.html" class="nav-link">Reports</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+  <header class="page-header">
+    <h1>Attendance Tracking</h1>
+    <p>Track employee attendance, clock-in/clock-out times, working hours, and overtime.</p>
+  </header>
+
+  <section class="attendance-details">
+    <table class="attendance-table" id="attendanceTable">
+      <thead>
+        <tr>
+          <th>Employee ID</th>
+          <th>Date</th>
+          <th>Clock-in Time</th>
+          <th>Clock-out Time</th>
+          <th>Working Hours</th>
+          <th>Overtime</th>
+          <th>Comp Off</th> <!-- New Column Header -->
+        </tr>
+      </thead>
+      <tbody id="attendanceTableBody">
+        <!-- Data will be dynamically added here -->
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyD6A4gvA4xt2tfvK2S1UOsg25OYFsnoHBk",
+    authDomain: "employee-management-111.firebaseapp.com",
+    databaseURL: "https://employee-management-111-default-rtdb.firebaseio.com",
+    projectId: "employee-management-111",
+    storageBucket: "employee-management-111.appspot.com",
+    messagingSenderId: "511443056601",
+    appId: "1:511443056601:web:02ba1eafbdb2e5f3dc4bc8",
+    measurementId: "G-PG3FT3F8WL"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  const db = firebase.database();
+
+  const attendanceTableBody = document.getElementById('attendanceTableBody');
+
+  // Retrieve all attendance data from Firebase
+  db.ref('Attendance').once('value', snapshot => {
+    attendanceTableBody.innerHTML = '';
+    snapshot.forEach(employeeSnapshot => {
+      const employeeId = employeeSnapshot.key; // Get Employee ID
+      employeeSnapshot.forEach(dateSnapshot => {
+        const date = dateSnapshot.key; // Get Date
+        const attendance = dateSnapshot.val(); // Get Attendance Data
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${employeeId}</td>
+          <td>${date}</td>
+          <td>${attendance.checkedin}</td>
+          <td>${attendance.checkout}</td>
+          <td>${attendance.workingHours}</td>
+          <td>${attendance.overtime}</td>
+          <td><button class="comp-off-button" data-employee-id="${employeeId}" data-date="${date}">Comp Off</button></td> <!-- Button for Comp Off -->
+        `;
+        attendanceTableBody.appendChild(row);
+      });
+    });
+
+    // Event listener for Comp Off buttons
+    const compOffButtons = document.querySelectorAll('.comp-off-button');
+    compOffButtons.forEach(button => {
+      button.addEventListener('click', e => {
+        const employeeId = e.target.getAttribute('data-employee-id');
+        const date = e.target.getAttribute('data-date');
+        createCompOff(employeeId, date);
+      });
+    });
+  });
+
+  // Function to create Comp Off entry in the database
+  function createCompOff(employeeId, date) {
+    db.ref(`Attendance/${employeeId}/${date}/compOff`).set(true)
+      .then(() => {
+        alert("Comp Off created successfully!");
+      })
+      .catch(error => {
+        console.error("Error creating Comp Off: ", error);
+      });
+  }
+</script>
+
+</body>
+</html>
+>>>>>>> 2742c34d1e30f420d9b8077a49eec63647a59721

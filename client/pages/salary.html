@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,3 +175,261 @@ table th, table td {
 <script src="script.js"></script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Salary Slip</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #3498db;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    input[type="text"],
+    select {
+      width: calc(100% - 10px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    button[type="submit"] {
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 0px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #2980b9;
+    }
+
+    .salary-slip-details {
+      border: 1px solid #ccc;
+      padding: 50px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<input type="checkbox" id="menu-toggle">
+<label for="menu-toggle" class="menu-icon">&#9776;</label>
+
+<nav class="navbar">
+    <div class="navbar-logo">
+      <img src="/client/assests/logo.png" alt="HRCONNEX Logo">
+    </div>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="../index.html" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item">
+        <a href="employee.html" class="nav-link">Employees</a>
+      </li>
+      <li class="nav-item">
+        <a href="attendance.html" class="nav-link">Attendance</a>
+      </li>
+      <li class="nav-item">
+        <a href="leave.html" class="nav-link">Leave Management</a>
+      </li>
+      <li class="nav-item">
+        <a href="performance.html" class="nav-link">Performance</a>
+      </li>
+      <li class="nav-item">
+        <a href="salary.html" class="nav-link">Salary</a>
+      </li>
+      <li class="nav-item">
+        <a href="reports.html" class="nav-link">Reports</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Section -->
+<div class="container">
+    <section class="salary-slip">
+      <h2>Generate Salary Slip</h2>
+      
+      <!-- Salary Slip Generation Form -->
+      <form id="salaryForm">
+        <div class="form-group">
+          <label for="employeeId">Select Employee ID:</label>
+          <select id="employeeId" name="employeeId">
+            <!-- Employee ID options will be dynamically populated -->
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="salaryMonth">Enter Month (dd-mm-yyyy):</label>
+          <input type="text" id="salaryMonth" name="salaryMonth" placeholder="Enter month in format dd-mm-yyyy">
+        </div>
+        
+        <!-- Table for Overtime, Work, and Comp Off -->
+        <table id="compOffTable">
+          <thead>
+            <tr>
+              <th>Overtime</th>
+              <th>Work</th>
+              <th>Comp Off</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Comp Off data will be displayed dynamically here -->
+          </tbody>
+        </table>
+        
+        <div class="form-group">
+          <label for="salaryAmount">Enter Salary Amount:</label>
+          <input type="number" id="salaryAmount" name="salaryAmount" placeholder="Enter salary amount...">
+        </div>
+
+        <!-- Generate Salary Slip Button -->
+        <button type="submit">Generate Salary Slip</button>
+      </form>
+      
+      <!-- Display Generated Salary Slip -->
+      <div id="salarySlip" class="salary-slip-details">
+        <!-- Salary slip details will be dynamically displayed here -->
+      </div>
+    </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyD6A4gvA4xt2tfvK2S1UOsg25OYFsnoHBk",
+    authDomain: "employee-management-111.firebaseapp.com",
+    databaseURL: "https://employee-management-111-default-rtdb.firebaseio.com",
+    projectId: "employee-management-111",
+    storageBucket: "employee-management-111.appspot.com",
+    messagingSenderId: "511443056601",
+    appId: "1:511443056601:web:02ba1eafbdb2e5f3dc4bc8",
+    measurementId: "G-PG3FT3F8WL"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  const db = firebase.database();
+
+  // Function to fetch employee IDs from attendance data
+  function fetchEmployeeIds() {
+    const employeeIdsSelect = document.getElementById('employeeId');
+    db.ref('Attendance').once('value', snapshot => {
+      snapshot.forEach(employeeSnapshot => {
+        const employeeId = employeeSnapshot.key;
+        const option = document.createElement('option');
+        option.value = employeeId;
+        option.textContent = employeeId;
+        employeeIdsSelect.appendChild(option);
+      });
+    });
+  }
+
+  // Function to fetch overtime, work, and comp-off data for the selected employee and month
+  function fetchSalaryData(employeeId, selectedMonth) {
+    const compOffTableBody = document.querySelector('#compOffTable tbody');
+    const salarySlipDiv = document.getElementById('salarySlip');
+    const overtimeRef = db.ref(`Attendance/${employeeId}/${selectedMonth}/overtime`);
+    const workRef = db.ref(`Attendance/${employeeId}/${selectedMonth}/workingHour`);
+    const compOffRef = db.ref(`Attendance/${employeeId}/${selectedMonth}/compOff`);
+
+    Promise.all([overtimeRef.once('value'), workRef.once('value'), compOffRef.once('value')])
+      .then(snapshot => {
+        const overtime = snapshot[0].val() || 0;
+        const work = snapshot[1].val() || 0;
+        let compOff = snapshot[2].val() ? Object.keys(snapshot[2].val()).length : 0;
+
+        // If compOff is true, increment by 1
+        if (snapshot[2].val()) {
+          compOff++;
+        }
+
+        // Update table with comp-off data
+        compOffTableBody.innerHTML = `
+          <tr>
+            <td>${overtime}</td>
+            <td>${work}</td>
+            <td>${compOff}</td>
+          </tr>
+        `;
+
+        // Update salary slip details
+        const salaryAmount = document.getElementById('salaryAmount').value;
+        salarySlipDiv.innerHTML = `
+          <h3>Salary Slip</h3>
+          <p>Employee ID: ${employeeId}</p>
+          <p>Month: ${selectedMonth}</p>
+          <p>Overtime: ${overtime} hours</p>
+          <p>Work: ${work} hours</p>
+          <p>Comp Off: ${compOff} days</p>
+          <p>Salary Amount: ${salaryAmount}</p>
+        `;
+      })
+      .catch(error => {
+        console.error("Error fetching salary data: ", error);
+      });
+  }
+
+  // Call the function to fetch employee IDs when the page loads
+  window.onload = function() {
+    fetchEmployeeIds();
+  };
+
+  // Event listener for form submission
+  document.getElementById('salaryForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    const employeeId = document.getElementById('employeeId').value;
+    const selectedMonth = document.getElementById('salaryMonth').value;
+    fetchSalaryData(employeeId, selectedMonth);
+  });
+
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
+>>>>>>> 2742c34d1e30f420d9b8077a49eec63647a59721
