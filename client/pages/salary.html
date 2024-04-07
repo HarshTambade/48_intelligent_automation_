@@ -203,7 +203,12 @@
       .then(snapshot => {
         const overtime = snapshot[0].val() || 0;
         const work = snapshot[1].val() || 0;
-        const compOff = snapshot[2].val() ? Object.keys(snapshot[2].val()).length : 0;
+        let compOff = snapshot[2].val() ? Object.keys(snapshot[2].val()).length : 0;
+
+        // If compOff is true, increment by 1
+        if (snapshot[2].val()) {
+          compOff++;
+        }
 
         // Update table with comp-off data
         compOffTableBody.innerHTML = `
