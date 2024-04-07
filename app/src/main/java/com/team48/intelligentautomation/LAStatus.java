@@ -26,7 +26,7 @@ public class LAStatus extends AppCompatActivity {
         setContentView(R.layout.activity_lastatus);
         stats = findViewById(R.id.stats);
         imageView = findViewById(R.id.imageView);
-
+        imageView.setVisibility(View.INVISIBLE);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
@@ -44,19 +44,51 @@ public class LAStatus extends AppCompatActivity {
             }
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("LeaveApplication").child(userMail);
+//            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    // Check if the dataSnapshot exists
+//                    if (dataSnapshot.exists()) {
+//                        // Fetch the status from dataSnapshot
+//                        String status = dataSnapshot.child("status").getValue(String.class);
+//                        // Update the TextView with the fetched status
+//                        stats.setText("Leave Application Status: " + status);
+//                        if(status.equals("Pending")){
+//                            imageView.setImageResource(R.drawable.pending);
+//                        } else {
+//                            imageView.setImageResource(R.drawable.approved);
+//                        }
+//                    } else {
+//                        // If dataSnapshot does not exist, show a message indicating no data found
+//                        imageView.setImageResource(R.drawable.notfound);
+//                        stats.setText("No leave application status found.");
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                    // Handle any errors that occur
+//                    stats.setText("Error fetching leave application status: " + databaseError.getMessage());
+//                }
+//            });
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     // Check if the dataSnapshot exists
                     if (dataSnapshot.exists()) {
-                        // Fetch the status from dataSnapshot
-                        String status = dataSnapshot.child("status").getValue(String.class);
-                        // Update the TextView with the fetched status
-                        stats.setText("Leave Application Status: " + status);
-                        if(status.equals("Pending")){
-                            imageView.setImageResource(R.drawable.pending);
-                        } else {
-                            imageView.setImageResource(R.drawable.approved);
+                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                            // Fetch the status from each child
+                            String status = childSnapshot.child("status").getValue(String.class);
+                            // Update the TextView with the fetched status
+                            stats.setText("Leave Application Status: " + status);
+                            if(status != null && status.equals("Pending")){
+                                imageView.setImageResource(R.drawable.pending);
+                            } else {
+                                imageView.setImageResource(R.drawable.approved);
+                            }
+                            // Assuming you only want to handle the status of the first child,
+                            // you can break the loop after processing the first child
+                            break;
                         }
                     } else {
                         // If dataSnapshot does not exist, show a message indicating no data found
@@ -71,7 +103,10 @@ public class LAStatus extends AppCompatActivity {
                     stats.setText("Error fetching leave application status: " + databaseError.getMessage());
                 }
             });
+
+
         }
+
 
 
 

@@ -1,7 +1,17 @@
 package com.team48.intelligentautomation;
 
 public class LeaveHelper {
+    public LeaveHelper(String email, String empID, String startDate, String endDate, String leaveType, String reason) {
+        this.email = email;
+        this.empID = empID;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.leaveType = leaveType;
+        this.reason = reason;
+    }
+
     String email;
+    String empID;
     String startDate;
     String endDate;
     String leaveType;
